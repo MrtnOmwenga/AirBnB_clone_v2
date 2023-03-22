@@ -121,7 +121,7 @@ class HBNBCommand(cmd.Cmd):
                 kvp = arg.split('=', 1)
                 key = kvp[0]
                 value = kvp[1]
-                if value[0] == value[-1] == '"':
+                if value[0] == value[len(value) - 1] == '"':
                     value = shlex.split(value)[0].replace('_', ' ')
                 else:
                     try:
@@ -143,12 +143,13 @@ class HBNBCommand(cmd.Cmd):
         elif args_list[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        print(args.split()[1])
-        dict = self._key_value_parser(args[1:])
-        new_instance = HBNBCommand.classes[args[0]](**dict)
-        storage.save()
+
+        dict = self._key_value_parser(args_list[1:])
+        new_instance = HBNBCommand.classes[args_list[0]](**dict)
+        #storage.save()
         print(new_instance.id)
         storage.save()
+
 
     def help_create(self):
         """ Help information for the create method """
