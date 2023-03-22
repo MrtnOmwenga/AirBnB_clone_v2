@@ -146,9 +146,10 @@ class HBNBCommand(cmd.Cmd):
 
         dict = self._key_value_parser(args_list[1:])
         new_instance = HBNBCommand.classes[args_list[0]](**dict)
-        #storage.save()
-        print(new_instance)
+        storage.new(new_instance)
+        print(new_instance.id)
         storage.save()
+        new_instance.save()
 
 
     def help_create(self):

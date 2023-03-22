@@ -23,7 +23,8 @@ class BaseModel:
                 kwargs['created_at'] = datetime.strptime(kwargs['created_at'], time)
                 del kwargs['__class__']
             except KeyError:
-                pass
+                self.created_at = datetime.utcnow()
+                self.updated_at = self.created_at
         self.__dict__.update(kwargs)
 
     def __str__(self):
