@@ -16,13 +16,15 @@ class BaseModel:
             self.updated_at = datetime.now()
             storage.new(self)
         else:
+            if kwargs.get("id", None) is None:
+                self.id = str(uuid.uuid4())
             try:
                 kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'], time)
                 kwargs['created_at'] = datetime.strptime(kwargs['created_at'], time)
                 del kwargs['__class__']
             except KeyError:
                 pass
-            self.__dict__.update(kwargs)
+        self.__dict__.update(kwargs)
 
     def __str__(self):
         """Returns a string representation of the instance"""
