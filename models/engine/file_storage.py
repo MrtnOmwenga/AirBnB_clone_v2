@@ -19,9 +19,8 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls is not None:
             obj_dict = {}
-            cls = cls()
             for key, value in FileStorage.__objects.items():
-                if key.split('.')[0] == cls.to_dict()['__class__']:
+                if cls == value.__class__ or cls == value.__class__.__name__:
                     obj_dict[key] = value
             return (obj_dict)
 
