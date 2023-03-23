@@ -13,6 +13,7 @@ from models.review import Review
 import shlex
 import models
 
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
@@ -127,10 +128,10 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     try:
                         value = int(value)
-                    except:
+                    except Exception:
                         try:
                             value = float(value)
-                        except:
+                        except Exception:
                             continue
                 new_dict[key] = value
         return new_dict
@@ -151,7 +152,6 @@ class HBNBCommand(cmd.Cmd):
         print(new_instance.id)
         storage.save()
         new_instance.save()
-
 
     def help_create(self):
         """ Help information for the create method """
@@ -247,7 +247,8 @@ class HBNBCommand(cmd.Cmd):
             if len(args_list) == 0:
                 obj_dict = models.storage.all()
             elif args_list[0] in HBNBCommand.classes:
-                obj_dict = models.storage.all(HBNBCommand.classes[args_list[0]])
+                sorage = models.storage
+                obj_dict = storage.all(HBNBCommand.classes[args_list[0]])
             else:
                 print("** class doesn't exist **")
                 return False
@@ -361,6 +362,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
