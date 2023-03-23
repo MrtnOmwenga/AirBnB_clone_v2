@@ -11,6 +11,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 import shlex
+import models
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -225,21 +226,36 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        print_list = []
 
-        if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
+        if models.HBNB_TYPE_STORAGE != 'db':
+            print_list = []
+            if args:
+                args = args.split(' ')[0]  # remove possible trailing args
+                if args not in HBNBCommand.classes:
+                    print("** class doesn't exist **")
+                    return
+                for k, v in storage._FileStorage__objects.items():
+                    if k.split('.')[0] == args:
+                        print_list.append(str(v))
+            else:
+                for k, v in storage._FileStorage__objects.items():
                     print_list.append(str(v))
+            print(print_list)
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
-        print(print_list)
+            args_list = shlex.split(args)
+            obj_list = []
+            if len(args_list) == 0:
+                obj_dict = models.storage.all()
+            elif args_list[0] in HBNBCommand.classes:
+                obj_dict = models.storage.all(HBNBCommand.classes[args_list[0]])
+            else:
+                print("** class doesn't exist **")
+                return False
+            for key in obj_dict:
+                obj_list.append(str(obj_dict[key]))
+            print("[", end="")
+            print(", ".join(obj_list), end="")
+            print("]")
 
     def help_all(self):
         """ Help information for the all command """
