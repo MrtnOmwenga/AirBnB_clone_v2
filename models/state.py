@@ -9,6 +9,7 @@ from sqlalchemy.orm import relationship
 
 class State(BaseModel, Base):
     """ State class """
+    __tablename__ = 'states'
     if models.HBNB_TYPE_STORAGE == "db":
         __tablename__ = 'states'
         name = Column(String(128), nullable=False)
@@ -19,7 +20,7 @@ class State(BaseModel, Base):
         name=""
 
     def __init__(self, *args, **kwargs):
-        ""initializes state""
+        """initializes state"""
         super().__init__(*args, **kwargs)
 
     if models.HBNB_TYPE_STORAGE != "db":
