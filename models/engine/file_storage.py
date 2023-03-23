@@ -32,7 +32,8 @@ class FileStorage:
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        FileStorage.__objects.update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+        key = obj.to_dict()['__clas__']
+        FileStorage.__objects.update({key + '.' + obj.id: obj})
 
     def save(self):
         """Saves storage dictionary to file"""
@@ -64,7 +65,8 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        FileStorage.__objects[key] = classes[val['__class__']](**val)
+                    x = FileStorage.__objects
+                    x.[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
@@ -74,4 +76,3 @@ class FileStorage:
             key = obj.__class__.__name__ + '.' + obj.id
             if key in self.__objects:
                 del self.__objects[key]
-

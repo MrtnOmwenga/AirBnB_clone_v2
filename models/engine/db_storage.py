@@ -23,8 +23,8 @@ classes = {"Amenity": Amenity, "City": City,
 
 class DBStorage:
     """ Database storage engine """
-    __engine=None
-    __session=None
+    __engine = None
+    __session = None
 
     def __init__(self):
         """Instantiate a DBStorage object"""
